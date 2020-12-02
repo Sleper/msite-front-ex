@@ -1,0 +1,33 @@
+<file-upload [(ngModel)]="textFiles" [accept]="FileConstants.ACCEPT_FILE_TYPE"
+             name="fileUpload">
+  <ng-template #placeholder let-isFileDragDropAvailable="isFileDragDropAvailable">
+    <span class="upload-text"></span>
+    <div class="pt-2">
+      <ng-container>Drag & Drop</ng-container>
+      <ng-template>Upload</ng-template>
+    </div>
+  </ng-template>
+  <ng-template #item let-control="control" let-file="file" let-i="index">
+    <div class="file-info">
+      <ng-container [ngSwitch]="true">
+        <ng-container *ngFor='let type of FileConstants.getPermitAllFileTypes()'>
+          <span *ngSwitchCase="FileConstants.getFileType(file) === type" class="{{type}}-icon"></span>
+        </ng-container>
+        <span *ngSwitchDefault class="broken-icon"></span>
+      </ng-container>
+      <span>{{file.name}}</span> ({{FileConstants.calculateSize(file.size)}})
+    </div>
+    <div class="file-buttons">
+      <span (click)="control.removeFile(file)" class="remove-btn pointer">Delete</span>
+    </div>
+  </ng-template>
+</file-upload>
+<div>
+  <button class="btn button-width mt-2" type="button" (click)="uploadFiles()">Upload</button>
+</div>
+
+<div class="w-100 result-container mt-3" *ngIf="resultText?.length">
+  <div *ngFor="let text of resultText">
+    {{text}}
+  </div>
+</div>
